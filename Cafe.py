@@ -22,7 +22,7 @@ def place_order():
 # TODO able to print report of ingredient levels and money collected
 
 print("hi")
-
+print("hi")
 
 # get user input
 # check ingredients
