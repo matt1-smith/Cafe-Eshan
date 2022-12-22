@@ -1,31 +1,30 @@
 from Ingredients import MENU
 from Ingredients import resources
-
-# main program
-
-# TODO user input for which beverage they'd like
+from Ingredients import logo
 
 
+# function to clear the console
+def cls():
+    print('\n'*10)
+
+
+# gets user input for which beverage they'd like
 def order():
     return input("What would you like? (espresso/latte/cappuccino): ")
 
 
-# TODO get info about specified drink
-# TODO check for ingredient level
-
 # checks if there's enough of each ingredient to make the requested drink
 def check_levels(water_level, milk_level, coffee_level, req_water, req_milk, req_coffee):
-    if water_level > req_water and milk_level > req_milk and coffee_level > req_coffee:
+    if water_level >= req_water and milk_level >= req_milk and coffee_level >= req_coffee:
         return True
     else:
         return False
 
 
-# TODO ask how many of each coin they insert
-#receives payment and gives change or refunds if needed
-def receive_payment(order):
-    cost = MENU[order]['cost']
-    print(f"The {order} costs ${cost}")
+# receives payment and gives change or refunds if needed
+def receive_payment(beverage, money):
+    cost = int(MENU[beverage]['cost'])
+    print(f"The {beverage} costs ${cost}")
     print("Please insert coins")
     quarters = int(input("How many quarters?: "))
     dimes = int(input("How many dimes?: "))
@@ -34,37 +33,70 @@ def receive_payment(order):
     total = quarters * .25 + dimes * .1 + nickels * .05 + pennies * .01
     if total > cost:
         change = total - cost
+        cls()
         print(f"Your change is {change}.")
-        return True
+        return money + cost, True
     elif total == cost:
+        cls()
         print("Payment accepted.")
-        return True
+        return money + cost, True
+
     else:
         print(f"You did not insert enough money. Your refund is {total}")
-        return False
+        return money, False
 
 
-# TODO receive payment
-# TODO brew the drink and decrease ingredients by proper amount
-# TODO able to print report of ingredient levels and money collected
-def cafe_eshan():
+# gives report of ingredient levels and money earned
+def report(water_level, milk_level, coffee_level, money):
+    return print(f"Water: {water_level}ml \nMilk: {milk_level}ml \nCoffee: {coffee_level}ml \n Money: ${money}")
+
+
+# reduces ingredients by recipe level and returns the beverage
+def brew(water_level, milk_level, coffee_level, req_water, req_milk, req_coffee):
+    water_level = water_level - req_water
+    milk_level = milk_level - req_milk
+    coffee_level = coffee_level - req_coffee
+    return water_level, milk_level, coffee_level, print("Enjoy your beverage! ☕")
+
+
+def denim_coffee():
     # machine resources
     water_level = resources['water']
     milk_level = resources['milk']
     coffee_level = resources['coffee']
+    money = 0
+    user_order = ""
+    power = True
+    while power:
+        print(logo)
+        user_order = order()
+        # provides ingredient level to user
+        if user_order == 'report':
+            report(water_level, milk_level, coffee_level, money)
+        # refills ingredients to max level
+        elif user_order == 'refill':
+            water_level = 900
+            milk_level = 600
+            coffee_level = 300
+        else:
+            order_ingredients = MENU[user_order]['ingredients']
+            # recipe
+            req_water = order_ingredients['water']
+            req_milk = order_ingredients['milk']
+            req_coffee = order_ingredients['coffee']
 
-    # order
-    user_order = order()
-    order_ingredients = MENU[user_order]['ingredients']
+            levels_good = check_levels(water_level, milk_level, coffee_level, req_water, req_milk, req_coffee)
+            if levels_good:
+                payment_result = receive_payment(user_order, money)
+                money = payment_result[0]
+                payment_good = payment_result[1]
+                if payment_good:
+                    remaining_level = brew(water_level, milk_level, coffee_level, req_water, req_milk, req_coffee)
+                    water_level = remaining_level[0]
+                    milk_level = remaining_level[1]
+                    coffee_level = remaining_level[2]
+            else:
+                print("Not enough ingredients. Please choose a different beverage.")
 
-    # recipe
-    req_water = order_ingredients['water']
-    req_milk = order_ingredients['milk']
-    req_coffee = order_ingredients['coffee']
 
-    levels_good = check_levels(water_level, milk_level, coffee_level, req_water, req_milk, req_coffee)
-    payment_good = receive_payment(user_order)
-
-    #if levels_good and payment_good:
-
-cafe_eshan()
+denim_coffee()
