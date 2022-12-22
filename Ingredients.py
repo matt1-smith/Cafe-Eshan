@@ -5,7 +5,7 @@ MENU = {
             "milk": 0,
             "coffee": 18,
         },
-        "cost": 1.5,
+        "cost": 1.50,
     },
     "latte": {
         "ingredients": {
@@ -13,7 +13,7 @@ MENU = {
             "milk": 150,
             "coffee": 24,
         },
-        "cost": 2.5,
+        "cost": 2.50,
     },
     "cappuccino": {
         "ingredients": {
@@ -21,7 +21,7 @@ MENU = {
             "milk": 100,
             "coffee": 24,
         },
-        "cost": 3.0,
+        "cost": 3.00,
     }
 }
 
