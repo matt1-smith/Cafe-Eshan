@@ -14,24 +14,8 @@ def place_order():
 
 
 # TODO get info about specified drink
-# TODO tell how much the beverage costs
 # TODO check for ingredient level
 # TODO ask how many of each coin they insert
 # TODO receive payment
 # TODO brew the drink and decrease ingredients by proper amount
 # TODO able to print report of ingredient levels and money collected
-
-print("hi")
-print("hi")
-print("hi")
-#antoher changef
-#antoher one
-asdflk;jfdsalkj
-
-# get user input
-# check ingredients
-# calculate costs
-# get payment
-# check payment
-# make the place_order()
-# transaction results
